@@ -15,6 +15,8 @@ import Heading from "../Heading";
 import Input from "../inputs/Input";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
+import { signIn } from "@/auth";
+import { authenticate } from "@/utils/actions";
 
 // // chú ý doạn này thay bang FieldValue
 // interface IFormInput {
@@ -37,8 +39,19 @@ const LoginModal = () => {
       password: "",
     },
   });
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    // setIsLoading(true);
+    const { email, password } = data;
+
+    const res = await authenticate(email, password);
+    if (res?.error) {
+      toast.error(res.error);
+    } else {
+      setIsLoading(false);
+      toast.success("logged in");
+      loginModal.onClose();
+    }
+
     // signIn("credentials", {
     //   ...data,
     //   redirect: false,

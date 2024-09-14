@@ -11,6 +11,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Footer from "@/components/Footer/Footer";
 import LoginModal from "@/components/modals/LoginModal";
 import RegisterModal from "@/components/modals/RegisterModal";
+import NextAuthWrapper from "@/library/next.auth.wrapper";
 
 export const metadata: Metadata = {
   title: "Airbnb",
@@ -35,7 +36,9 @@ export default function RootLayout({
           <LoginModal />
           <Navbar />
         </ClientOnly>
-        <AntdRegistry>{children}</AntdRegistry>
+        <AntdRegistry>
+          <NextAuthWrapper>{children}</NextAuthWrapper>
+        </AntdRegistry>
         <ClientOnly>
           <Footer />
         </ClientOnly>

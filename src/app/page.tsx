@@ -1,7 +1,6 @@
 import ClientOnly from "@/components/ClientOnly";
 import Container from "@/components/Container";
 import PropertyCard from "@/components/properties/PropertyCard";
-import { Button } from "antd";
 
 export default function Home() {
   return (
