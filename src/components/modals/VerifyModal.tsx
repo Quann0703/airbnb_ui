@@ -15,8 +15,8 @@ import Button from '../Button';
 
 import useLoginModal from '@/hooks/useLoginModal';
 import { sendRequest } from '@/utils/api';
-import { useRouter } from 'next/navigation';
 import useVerifyModal from '@/hooks/useVerifyModal';
+import { useRouter } from 'next/navigation';
 
 // // chú ý doạn này thay bang FieldValue
 // interface IFormInput {
@@ -24,11 +24,13 @@ import useVerifyModal from '@/hooks/useVerifyModal';
 //   email: string;
 //   password: string;
 // }
-const RegisterModal = () => {
-    const router = useRouter();
+interface VerifyModalProps {
+    id: string;
+}
+const VerifyModal: React.FC<VerifyModalProps> = ({ id }) => {
     const loginModal = useLoginModal();
-    const registerModal = useRegisterModal();
     const verifyModal = useVerifyModal();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
     const {
         register,
@@ -36,59 +38,45 @@ const RegisterModal = () => {
         formState: { errors },
     } = useForm<FieldValues>({
         defaultValues: {
-            name: '',
-            email: '',
-            password: '',
+            code: '',
         },
     });
+    const toggleVerify = useCallback(() => {
+        verifyModal.onClose();
+        loginModal.onOpen();
+    }, [loginModal, verifyModal]);
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        setIsLoading(true);
-        const { email, password, name } = data;
-
+        // setIsLoading(true);
+        const { code } = data;
         const res = await sendRequest<IBackendRes<any>>({
+            url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/check-code`,
             method: 'POST',
-            url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/register`,
             body: {
-                email,
-                password,
-                name,
+                _id: id,
+                code,
             },
         });
-        if (res?.error) {
-            toast.error(`${res?.error}`);
+        if (res?.data) {
+            toast.success('kick hoat tai khoan thanh cong');
+            loginModal.onOpen();
+            verifyModal.onClose();
         } else {
-            setIsLoading(false);
-            toast.success('Đăng ký thành công cần xác minh code');
-            registerModal.onClose();
-            router.push(`/verify/${res?.data._id}`);
-            verifyModal.onOpen();
+            toast.error('bạn nhập sai code hoặc code đã hết hạn');
         }
     };
     const toggle = useCallback(() => {
-        registerModal.onClose();
+        verifyModal.onClose();
         loginModal.onOpen();
-    }, [loginModal, registerModal]);
+    }, [loginModal, verifyModal]);
     const bodyContent = (
         <div className="flex flex-col gap-4">
-            <Heading title="Welcome to Airbnb" subtitle="Create an account?" />
-            <Input id="email" label="Email" disabled={isLoading} register={register} errors={errors} required />
-            <Input id="name" label="Name" disabled={isLoading} register={register} errors={errors} required />
-            <Input
-                id="password"
-                label="Password"
-                type="password"
-                disabled={isLoading}
-                register={register}
-                errors={errors}
-                required
-            />
+            <Heading title="Mã code đã gửi đến email " subtitle="Vui long kiểm tra email" />
+            <Input id="_id" label="_id" disabled={true} register={register} errors={errors} hidden value={id} />
+            <Input id="code" label="code" disabled={isLoading} register={register} errors={errors} required />
         </div>
     );
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3">
-            <hr />
-            <Button outline label="Continue with Google" icon={FcGoogle} onClick={() => {}} />
-            <Button outline label="Continue with Github" icon={AiFillGithub} onClick={() => {}} />
             <div className=" text-neutral-500 text-center mt-4 font-light ">
                 <div className="flex flex-row items-center gap-2 justify-center">
                     <div>Already have account ?</div>
@@ -101,16 +89,16 @@ const RegisterModal = () => {
     );
     return (
         <Modal
-            title="Register"
+            title="Check code"
             disabled={isLoading}
-            actionLabel="Continue"
-            isOpen={registerModal.isOpen}
+            actionLabel="Submit"
+            isOpen={verifyModal.isOpen}
             onSubmit={handleSubmit(onSubmit)}
-            onClose={registerModal.onClose}
+            onClose={toggleVerify}
             body={bodyContent}
             footer={footerContent}
         />
     );
 };
 
-export default RegisterModal;
+export default VerifyModal;
