@@ -30,3 +30,14 @@ export async function authenticate(email: string, password: string) {
         }
     }
 }
+export async function authenticateGoogle() {
+    // try {
+    const r = await signIn('google');
+    return r;
+    // } catch (error) {
+    //     return {
+    //         error: 'Internal serve error',
+    //         code: 0,
+    //     };
+    // }
+}

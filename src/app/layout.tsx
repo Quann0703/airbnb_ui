@@ -14,6 +14,7 @@ import RegisterModal from '@/components/modals/RegisterModal';
 import NextAuthWrapper from '@/library/next.auth.wrapper';
 import { getCurrentUser } from '@/actions/getCurrentUser';
 import ReactiveModal from '@/components/modals/ReactiveModal';
+import { log } from 'console';
 
 export const metadata: Metadata = {
     title: 'Airbnb',
@@ -30,6 +31,8 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const currentUser = await getCurrentUser();
+    console.log(currentUser);
+
     return (
         <html lang="en">
             <body className={font.className}>
@@ -37,7 +40,6 @@ export default async function RootLayout({
                     <ToasterProvider />
                     <RegisterModal />
                     <LoginModal />
-                    <ReactiveModal />
                     <Navbar currentUser={currentUser} />
                 </ClientOnly>
                 <AntdRegistry>

@@ -16,8 +16,9 @@ import Input from '../inputs/Input';
 import Button from '../Button';
 import { useRouter } from 'next/navigation';
 import { signIn } from '@/auth';
-import { authenticate } from '@/utils/actions';
+import { authenticate, authenticateGoogle } from '@/utils/actions';
 import useReactiveModal from '@/hooks/useReactiveModal';
+import ReactiveModal from './ReactiveModal';
 
 const LoginModal = () => {
     const router = useRouter();
@@ -38,12 +39,12 @@ const LoginModal = () => {
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         setIsLoading(true);
         const { email, password } = data;
-
         const res = await authenticate(email, password);
         if (res?.error) {
             if (res?.code === 2) {
                 reactiveModal.onOpen();
                 loginModal.onClose();
+                setIsLoading(false);
             }
             toast.error(res.error);
         } else {
@@ -51,7 +52,13 @@ const LoginModal = () => {
             toast.success('logged in');
             loginModal.onClose();
             router.push('/');
+            router.refresh();
         }
+    };
+    const loginGoogle = async () => {
+        const res = await authenticateGoogle();
+        console.log(res);
+        return res;
     };
     const toggle = useCallback(() => {
         loginModal.onClose();
@@ -76,7 +83,7 @@ const LoginModal = () => {
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3">
             <hr />
-            <Button outline label="Continue with Google" icon={FcGoogle} onClick={() => {}} />
+            <Button outline label="Continue with Google" icon={FcGoogle} onClick={loginGoogle} />
             <Button outline label="Continue with Github" icon={AiFillGithub} onClick={() => {}} />
             <div className=" text-neutral-500 text-center mt-4 font-light ">
                 <div className="flex flex-row items-center gap-2 justify-center">
@@ -89,16 +96,19 @@ const LoginModal = () => {
         </div>
     );
     return (
-        <Modal
-            title="Login"
-            disabled={isLoading}
-            actionLabel="Continue"
-            isOpen={loginModal.isOpen}
-            onSubmit={handleSubmit(onSubmit)}
-            onClose={loginModal.onClose}
-            body={bodyContent}
-            footer={footerContent}
-        />
+        <>
+            <Modal
+                title="Login"
+                disabled={isLoading}
+                actionLabel="Continue"
+                isOpen={loginModal.isOpen}
+                onSubmit={handleSubmit(onSubmit)}
+                onClose={loginModal.onClose}
+                body={bodyContent}
+                footer={footerContent}
+            />
+            <ReactiveModal />
+        </>
     );
 };
 

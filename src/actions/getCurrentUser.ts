@@ -14,21 +14,28 @@ export async function getCurrentUser() {
         if (!session?.user?.email) {
             return null;
         }
+
         const res = await sendRequest<IBackendRes<any>>({
             method: 'GET',
             url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/users/currentUser`,
             headers: {
-                Authorization: `Bearer ${session?.user?.access_token}`,
+                Authorization: `Bearer ${session.user.access_token}`,
             },
             queryParams: {
-                email: session?.user?.email,
+                email: session.user.email,
             },
         });
-        if (!res) {
+
+        if (res.statusCode !== 200) {
+            console.error('Failed to fetch user:', res);
             return null;
         }
+
         return {
-            ...res?.data?.user,
+            ...res.data.user,
         };
-    } catch (error) {}
+    } catch (error) {
+        console.error('Error fetching current user:', error);
+        return null;
+    }
 }

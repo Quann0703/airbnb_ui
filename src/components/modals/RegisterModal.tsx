@@ -17,6 +17,7 @@ import useLoginModal from '@/hooks/useLoginModal';
 import { sendRequest } from '@/utils/api';
 import { useRouter } from 'next/navigation';
 import useVerifyModal from '@/hooks/useVerifyModal';
+import { authenticateGoogle } from '@/utils/actions';
 
 // // chú ý doạn này thay bang FieldValue
 // interface IFormInput {
@@ -68,6 +69,12 @@ const RegisterModal = () => {
         registerModal.onClose();
         loginModal.onOpen();
     }, [loginModal, registerModal]);
+
+    const loginGoogle = async () => {
+        const res = await authenticateGoogle();
+
+        return res;
+    };
     const bodyContent = (
         <div className="flex flex-col gap-4">
             <Heading title="Welcome to Airbnb" subtitle="Create an account?" />
@@ -87,7 +94,7 @@ const RegisterModal = () => {
     const footerContent = (
         <div className="flex flex-col gap-4 mt-3">
             <hr />
-            <Button outline label="Continue with Google" icon={FcGoogle} onClick={() => {}} />
+            <Button outline label="Continue with Google" icon={FcGoogle} onClick={loginGoogle} />
             <Button outline label="Continue with Github" icon={AiFillGithub} onClick={() => {}} />
             <div className=" text-neutral-500 text-center mt-4 font-light ">
                 <div className="flex flex-row items-center gap-2 justify-center">
