@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { Inter, Nunito } from 'next/font/google';
-import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 import '@/app/globals.css';
 import ClientOnly from '@/components/ClientOnly';
@@ -12,9 +11,8 @@ import Footer from '@/components/Footer/Footer';
 import LoginModal from '@/components/modals/LoginModal';
 import RegisterModal from '@/components/modals/RegisterModal';
 import NextAuthWrapper from '@/library/next.auth.wrapper';
-import { getCurrentUser } from '@/actions/getCurrentUser';
-import ReactiveModal from '@/components/modals/ReactiveModal';
-import { log } from 'console';
+import { getCurrentUser, getSession } from '@/actions/getCurrentUser';
+import ThemeRegistry from '../../theme/ThemeRegistry';
 
 export const metadata: Metadata = {
     title: 'Airbnb',
@@ -31,23 +29,25 @@ export default async function RootLayout({
     children: React.ReactNode;
 }>) {
     const currentUser = await getCurrentUser();
-    console.log(currentUser);
+    const session = await getSession();
 
     return (
         <html lang="en">
             <body className={font.className}>
-                <ClientOnly>
-                    <ToasterProvider />
-                    <RegisterModal />
-                    <LoginModal />
-                    <Navbar currentUser={currentUser} />
-                </ClientOnly>
-                <AntdRegistry>
+                <ThemeRegistry>
+                    <ClientOnly>
+                        <ToasterProvider />
+                        <RegisterModal />
+                        <LoginModal />
+                        <Navbar currentUser={currentUser} />
+                    </ClientOnly>
+
                     <NextAuthWrapper>{children}</NextAuthWrapper>
-                </AntdRegistry>
-                <ClientOnly>
-                    <Footer />
-                </ClientOnly>
+
+                    <ClientOnly>
+                        <Footer />
+                    </ClientOnly>
+                </ThemeRegistry>
             </body>
         </html>
     );

@@ -16,18 +16,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     image: profile.picture,
                     email: profile.email,
                 };
-                await sendRequest<IBackendRes<any>>({
+
+                // Gửi yêu cầu đến backend để nhận JWT
+                const res = await sendRequest<IBackendRes<any>>({
                     method: 'POST',
                     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/google`,
                     body: userData,
                 });
-                return userData;
+
+                return {
+                    ...userData,
+                    access_token: res.data.token, // Lưu JWT từ backend
+                };
             },
         }),
 
         Credentials({
-            // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-            // e.g. domain, username, password, 2FA token, etc.
             credentials: {
                 username: {},
                 password: {},
@@ -62,10 +66,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }),
     ],
     pages: {
-        signIn: '/auth/login',
+        signIn: '/',
     },
     callbacks: {
-        jwt({ token, user }) {
+        jwt({ token, user, account }) {
+            if (account) {
+                token.accessToken = account.access_token; // Lưu access_token
+            }
             if (user) {
                 token.user = user as IUser;
             }
@@ -73,6 +80,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
         session({ session, token }) {
             (session.user as IUser) = token.user;
+            session.access_token = token.accessToken as string;
             return session;
         },
         authorized: async ({ auth }) => {

@@ -1,8 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { Steps } from 'antd';
-import { SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 import Modal from './Modal';
 import useReactiveModal from '@/hooks/useReactiveModal';
 import Heading from '../Heading';
@@ -12,6 +10,16 @@ import Button from '../Button';
 import { sendRequest } from '@/utils/api';
 import toast from 'react-hot-toast';
 import useLoginModal from '@/hooks/useLoginModal';
+import { Step, StepLabel, Stepper } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckIcon from '@mui/icons-material/Check';
+
+const steps = [
+    { title: 'Login', icon: <LoginIcon /> },
+    { title: 'Verification', icon: <CheckCircleIcon /> },
+    { title: 'Done', icon: <CheckIcon /> },
+];
 
 const ReactiveModal = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -70,27 +78,14 @@ const ReactiveModal = () => {
 
     let bodyContent = (
         <>
-            <Steps
-                current={current}
-                items={[
-                    {
-                        title: 'Login',
-                        // status: 'finish',
-                        icon: <UserOutlined />,
-                    },
-                    {
-                        title: 'Verification',
-                        // status: 'finish',
-                        icon: <SolutionOutlined />,
-                    },
+            <Stepper activeStep={current}>
+                {steps.map((step, index) => (
+                    <Step key={index}>
+                        <StepLabel icon={step.icon}>{step.title}</StepLabel>
+                    </Step>
+                ))}
+            </Stepper>
 
-                    {
-                        title: 'Done',
-                        // status: 'wait',
-                        icon: <SmileOutlined />,
-                    },
-                ]}
-            />
             {current === 0 && (
                 <>
                     <div className="flex flex-col gap-4 mt-3">
