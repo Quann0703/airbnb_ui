@@ -459,7 +459,7 @@ export const PolicyIcon = ({ className }: IconProps) => {
             viewBox="0 0 24 25"
             className={className}
         >
-            <g clip-path="url(#a)">
+            <g clipPath="url(#a)">
                 <path
                     fill="#E31C5F"
                     fillOpacity=".2"
@@ -495,7 +495,7 @@ export const SafeIcon = ({ className }: IconProps) => {
         >
             <g filter="url(#a)">
                 <rect width="32" height="32" x="8.5" y="6.3" fill="url(#b)" rx="16" shapeRendering="crispEdges" />
-                <g clip-path="url(#c)">
+                <g clipPath="url(#c)">
                     <path
                         fill="#fff"
                         d="m24.5 14.7.28.185c1.92 1.28 3.82 1.915 5.72 1.915h.5v6.25c0 4.035-2.895 6.75-6.5 6.75S18 27.085 18 23.05V16.8h.5c1.9 0 3.8-.635 5.725-1.915l.275-.185Zm3.5 4.54-4.75 4.75L21 21.74l-1.06 1.06 3.31 3.31 5.81-5.81L28 19.24Z"

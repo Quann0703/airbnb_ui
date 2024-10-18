@@ -14,6 +14,7 @@ import Map from '@/components/Map';
 
 import { NextArrowIcon } from '@/components/Icon';
 import ListingInfoHost from '@/components/listings/ListingInfoHost';
+import useBookingStore from '@/hooks/useBookingStore';
 
 interface ListingClientProps {
     reservations?: SafeReservation[];
@@ -56,11 +57,13 @@ const ListingClient: React.FC<ListingClientProps> = ({ currentUser, reservations
     const [locationData, setLocationData] = useState<LocationData | null>(null);
     const [totalPrice, setTotalPrice] = useState(property?.pricePerNight);
     const [guests, setGuests] = useState<Guest>(initialGuests);
-
+    const storeBooking = useBookingStore();
+    const { setBookView, setImageBooking, setRating, setTitle } = storeBooking;
     const handleGuestsChange = (adults: number, children: number, infants: number) => {
         setGuests({ ...guests, adults, children, infants });
     };
-
+    const defaultImage =
+        'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzNTA4NjAxNDk3NDg1NTQ2MQ%3D%3D/original/b692ae8e-a118-4906-bf40-16855d715c02.jpeg?im_w=720';
     const disableDates = useMemo(() => {
         let dates: Date[] = [];
         reservations?.forEach((reservation) => {
@@ -90,12 +93,19 @@ const ListingClient: React.FC<ListingClientProps> = ({ currentUser, reservations
                 console.error('Lỗi:', error);
             }
         };
+        const featuredImage = property?.images?.imageGroup?.find((item) => item.isFeatured && item.imageSrc);
+        if (property?.view && property.images?.imageGroup?.length && property.rating && property.title !== undefined) {
+            setBookView(property.view);
+            setImageBooking(featuredImage?.imageSrc || defaultImage);
+            setRating(property.rating);
+            setTitle(property.title);
+        }
         fetchLocationDataByCity(`${property?.address} ${property?.city}`);
     }, []);
 
     useEffect(() => {
         if (dateRange.startDate && dateRange.endDate) {
-            const dayCount = differenceInCalendarDays(dateRange.endDate, dateRange.startDate);
+            const dayCount = differenceInCalendarDays(dateRange.endDate, dateRange.startDate) + 1;
             if (dayCount && property?.pricePerNight) {
                 setTotalPrice(dayCount * property?.pricePerNight);
             } else {
@@ -138,6 +148,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ currentUser, reservations
                                 onGuestsChange={handleGuestsChange}
                                 onChangeDate={(value) => setDateRange(value)}
                                 dayCount={dayCount}
+                                propertyId={property?._id}
                             />
                         </div>
                     </div>

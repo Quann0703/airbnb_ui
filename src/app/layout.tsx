@@ -4,12 +4,10 @@ import { Inter, Nunito } from 'next/font/google';
 import '@/app/globals.css';
 import ClientOnly from '@/components/ClientOnly';
 import ToasterProvider from '@/providers/ToasterProvider';
-import Navbar from '@/components/navbar/Navbar';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Footer from '@/components/Footer/Footer';
-import LoginModal from '@/components/modals/LoginModal';
-import RegisterModal from '@/components/modals/RegisterModal';
+
 import NextAuthWrapper from '@/library/next.auth.wrapper';
 import { getCurrentUser, getSession } from '@/actions/getCurrentUser';
 import ThemeRegistry from '../../theme/ThemeRegistry';
@@ -37,16 +35,9 @@ export default async function RootLayout({
                 <ThemeRegistry>
                     <ClientOnly>
                         <ToasterProvider />
-                        <RegisterModal />
-                        <LoginModal />
-                        <Navbar currentUser={currentUser} />
                     </ClientOnly>
 
                     <NextAuthWrapper>{children}</NextAuthWrapper>
-
-                    <ClientOnly>
-                        <Footer />
-                    </ClientOnly>
                 </ThemeRegistry>
             </body>
         </html>

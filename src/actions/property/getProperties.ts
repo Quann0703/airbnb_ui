@@ -28,7 +28,7 @@ export async function getProperties(params: IPropertyPrams) {
     });
 
     if (res.statusCode !== 200) {
-        console.error('không có căn hộ nào', res);
+        console.error('taoj tai khoan paypal ko thanh cong', res);
         return null;
     }
     return res.data.properties;

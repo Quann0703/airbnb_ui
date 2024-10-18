@@ -27,7 +27,6 @@ const ListingImage: React.FC<ListingImageProps> = ({ propertyImage }) => {
 
         setSubImage(notFeaturedImages);
     }, [propertyImage]);
-    console.log(subImage);
 
     return (
         <Box display="flex" gap={2} px={2} py={2}>

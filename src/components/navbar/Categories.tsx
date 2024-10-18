@@ -110,7 +110,7 @@ const Categories = () => {
     const [currentCategory, setCurrentCategory] = useState(0);
     const totalCategory = categories.length;
 
-    const isMainPage = pathname === '/';
+    const isMainPage = pathname === '/home';
 
     if (!isMainPage) {
         return null;
@@ -155,7 +155,7 @@ const Categories = () => {
     return (
         <Container>
             <div className="flex items-center justify-between space-x-4">
-                <div className="max-w-[90%] ">
+                <div className="max-w-[90%] pt-2">
                     <Slider {...settings}>
                         {categories.map((item, index) => {
                             return (

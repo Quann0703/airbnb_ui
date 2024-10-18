@@ -7,6 +7,8 @@ import { Range } from 'react-date-range';
 import { formatCurrency } from '@/utils/formatCurrency';
 import { Guest } from '@/app/listings/[listingId]/ListingClient';
 import DateSelector from '../inputs/DateSelection';
+import { useRouter } from 'next/navigation';
+import useBookingStore from '@/hooks/useBookingStore';
 
 interface ListingReserVationProps {
     price?: number;
@@ -18,6 +20,7 @@ interface ListingReserVationProps {
     onGuestsChange?: (adults: number, children: number, infants: number) => void;
     onChangeDate: (value: Range) => void;
     dayCount?: number;
+    propertyId?: string;
 }
 
 const ListingReservation: React.FC<ListingReserVationProps> = ({
@@ -30,12 +33,35 @@ const ListingReservation: React.FC<ListingReserVationProps> = ({
     onGuestsChange,
     onChangeDate,
     dayCount,
+    propertyId,
 }) => {
     const [scrollPosition, setScrollPosition] = useState(0);
     const [isFixed, setIsFixed] = useState(false);
     const [isGuestsSelectionOpen, setIsGuestsSelectionOpen] = useState(false);
     const [isDateSelectionOpen, setIsDateSelectionOpen] = useState(false);
     const { adults, children, infants } = guests;
+    const router = useRouter();
+    const storeBooking = useBookingStore();
+
+    const onReservation = () => {
+        if (dateRange.startDate && dateRange.endDate && price !== undefined) {
+            // Chuyển trang trước khi đặt các giá trị
+            router.push(`/book/${propertyId}`);
+
+            // Đặt ngày bắt đầu và kết thúc
+            storeBooking.setDates(dateRange.startDate, dateRange.endDate);
+
+            // Đặt giá mỗi ngày
+            storeBooking.setDailyRate(price);
+
+            storeBooking.setNumberGuests(guestsCount);
+
+            // Tính tổng tiền
+            storeBooking.calculateTotal();
+        } else {
+            console.error('Ngày bắt đầu hoặc ngày kết thúc không hợp lệ');
+        }
+    };
     const handleGuestsSelectionToggle = () => {
         setIsGuestsSelectionOpen((prev) => !prev);
     };
@@ -140,7 +166,10 @@ const ListingReservation: React.FC<ListingReserVationProps> = ({
                         </div>
                     </div>
                     {/* Reserve Button */}
-                    <button className="w-full bg-red-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-red-700 transition">
+                    <button
+                        className="w-full bg-red-600 text-white py-3 rounded-lg text-lg font-semibold hover:bg-red-700 transition"
+                        onClick={onReservation}
+                    >
                         Reserve
                     </button>
 

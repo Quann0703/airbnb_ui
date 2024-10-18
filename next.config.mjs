@@ -17,6 +17,7 @@ const nextConfig = {
             'c.animaapp.com',
             'via.placeholder.com',
             'i.pinimg.com',
+            'upload.wikimedia.org',
         ],
     },
 };
