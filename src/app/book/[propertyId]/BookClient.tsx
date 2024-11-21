@@ -16,6 +16,7 @@ import { createPayment } from '@/actions/payment/createPayment';
 import { capturePayment } from '@/actions/payment/capturePayment';
 import { createReservation } from '@/actions/reservation/createReservation';
 import toast from 'react-hot-toast';
+import { useEffect, useState } from 'react';
 
 interface BookClientProps {
     currentUser?: SafeUser;
@@ -23,6 +24,11 @@ interface BookClientProps {
 }
 
 const BookClient: React.FC<BookClientProps> = ({ currentUser, propertyId }) => {
+    const [total, setTotal] = useState<number>(0);
+    const [date, setDate] = useState({
+        startDate: new Date().toISOString(), // Khởi tạo date
+        endDate: new Date().toISOString(),
+    });
     const storeBooking = useBookingStore();
     const router = useRouter();
     console.log(propertyId);
@@ -35,12 +41,50 @@ const BookClient: React.FC<BookClientProps> = ({ currentUser, propertyId }) => {
         return date.getDate();
     };
 
+    useEffect(() => {
+        setTotal(storeBooking.totalAmount);
+
+        setDate({
+            startDate: storeBooking.startDate ? storeBooking.startDate.toISOString() : '',
+            endDate: storeBooking.endDate ? storeBooking.endDate.toISOString() : '',
+        });
+    }, [storeBooking.totalAmount, storeBooking.startDate, storeBooking.endDate]);
+
+    const reservationData = {
+        userId: currentUser?._id,
+        propertyId: propertyId,
+        startDate: date.startDate,
+        endDate: date.endDate,
+        guestsCount: storeBooking.numberGuests,
+        totalPrice: total,
+    };
+
     const initialOptions = {
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
         currency: 'USD',
         intent: 'capture',
     };
 
+    const handlePaymentCapture = async (orderID: string) => {
+        try {
+            console.log(reservationData);
+            const captureResponse = await capturePayment(orderID, reservationData);
+
+            if (
+                captureResponse &&
+                captureResponse.paymentResult &&
+                captureResponse.paymentResult.status === 'COMPLETED'
+            ) {
+                toast.success('Bạn vừa đặt phòng thành công');
+                router.back();
+            } else {
+                toast.error('Đặt phòng không thành công. Vui lòng thử lại!');
+            }
+        } catch (error) {
+            console.error('Error capturing payment:', error);
+            toast.error('Có lỗi xảy ra khi xử lý thanh toán. Vui lòng thử lại!');
+        }
+    };
     return (
         <Container>
             <div className="w-full mx-auto mb-20 pt-20 ">
@@ -267,28 +311,7 @@ const BookClient: React.FC<BookClientProps> = ({ currentUser, propertyId }) => {
                                                 console.log('Payment cancelled', data);
                                             }}
                                             onApprove={async (data, actions) => {
-                                                try {
-                                                    console.log(data.orderID);
-                                                    const captureResponse = await capturePayment(data.orderID);
-                                                    console.log('Payment capture response:', captureResponse);
-                                                    if (captureResponse.status === 'COMPLETED') {
-                                                        const data = {
-                                                            userId: currentUser?._id,
-                                                            propertyId: propertyId,
-                                                            startDate: storeBooking.startDate,
-                                                            endDate: storeBooking.endDate,
-                                                            guestsCount: storeBooking.numberGuests,
-                                                            totalPrice: storeBooking.calculateTotal,
-                                                        };
-                                                        const reservation = await createReservation(data);
-                                                        if (reservation) {
-                                                            toast.success('bạn vừa đặt phòng thành công');
-                                                            router.back();
-                                                        }
-                                                    }
-                                                } catch (error) {
-                                                    console.error('Error capturing payment:', error);
-                                                }
+                                                await handlePaymentCapture(data.orderID);
                                             }}
                                         />
                                     </Box>

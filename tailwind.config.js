@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin');
 module.exports = {
     content: [
         './app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -32,7 +33,30 @@ module.exports = {
                 ],
                 inter: ['Inter', 'sans-serif'],
             },
+            keyframes: {
+                resizeanim: {
+                    '0%': { transform: 'scale(1)' },
+                    '100%': { transform: 'scale(1.05)' },
+                },
+            },
+            animation: {
+                resizeanim: 'resizeanim 1ms ease-in-out',
+            },
         },
     },
-    plugins: [],
+    plugins: [
+        plugin(function ({ addUtilities }) {
+            addUtilities({
+                '.scrollbar-gutter-stable': {
+                    'scrollbar-gutter': 'stable',
+                },
+                '.transition-box-shadow-transform': {
+                    transition: `
+                    box-shadow 0.2s cubic-bezier(0.2, 0, 0, 1), 
+                    transform 0.1s cubic-bezier(0.2, 0, 0, 1)
+                    `,
+                },
+            });
+        }),
+    ],
 };

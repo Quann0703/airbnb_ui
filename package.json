@@ -12,11 +12,14 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@date-io/date-fns": "^3.0.0",
         "@emotion/cache": "^11.13.1",
         "@emotion/react": "^11.13.3",
         "@emotion/styled": "^11.13.0",
         "@mui/icons-material": "^6.1.1",
+        "@mui/lab": "^6.0.0-beta.15",
         "@mui/material": "^6.1.1",
+        "@mui/x-date-pickers": "^7.22.2",
         "@paypal/react-paypal-js": "^8.7.0",
         "@types/bcrypt": "^5.0.2",
         "axios": "^1.7.2",

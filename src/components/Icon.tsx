@@ -537,3 +537,34 @@ export const SafeIcon = ({ className }: IconProps) => {
         </svg>
     );
 };
+export const SuperHostIcon = ({ className }: IconProps) => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+            role="presentation"
+            focusable="false"
+            className={className}
+            style={{ display: 'block', height: 32, width: 32, fill: 'currentcolor' }}
+        >
+            <path d="M25.5 25a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zm0 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM13 0a12 12 0 0 1 11.83 14H22.8a10 10 0 1 0-18.02 3.7 10.97 10.97 0 0 1 4.45-3.04A5.99 5.99 0 0 1 13 4a6 6 0 0 1 3.77 10.67c.58.2 1.14.46 1.67.77-.24.4-.4.86-.43 1.35L18 17v.52a8.96 8.96 0 0 0-4-1.46v-2.19a4 4 0 1 0-2 0v2.19a8.98 8.98 0 0 0-5.9 3.17A9.97 9.97 0 0 0 18 20.66v.54a3 3 0 0 0 .5 1.47A12 12 0 1 1 13 0zm17 16a1 1 0 0 1 1 .88V21a1 1 0 0 1-.48.85l-.11.06-4.5 2a1 1 0 0 1-.7.05l-.12-.05-4.5-2a1 1 0 0 1-.58-.78L20 21v-4a1 1 0 0 1 .88-1H21zm-1 2h-7v2.35l3.5 1.55 3.5-1.55z" />
+        </svg>
+    );
+};
+
+export const ContactHelpIcon = ({ className }: IconProps) => {
+    return (
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 32 32"
+            aria-hidden="true"
+            role="presentation"
+            focusable="false"
+            className={className}
+            style={{ display: 'block', height: 32, width: 32, fill: 'currentcolor' }}
+        >
+            <path d="M16 1a11 11 0 0 1 10.6 8.03 6 6 0 0 1-.34 11.96 11.01 11.01 0 0 1-7.53 6.7l.2-.05a3 3 0 1 1-.26-2.01 9 9 0 0 0 6.33-8.6V12a9 9 0 0 0-18-.27V21H6a6 6 0 0 1-.6-11.97A11 11 0 0 1 16 1zm0 25a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm.75-20.4c.69 0 1.25.55 1.25 1.24V11h2.04c.2 0 .38.04.56.13l.12.07a1.25 1.25 0 0 1 .37 1.73l-5.8 8.9a1.25 1.25 0 0 1-2.29-.67V17h-2.04a1.25 1.25 0 0 1-.56-.13l-.12-.07a1.25 1.25 0 0 1-.37-1.73l5.8-8.9a1.25 1.25 0 0 1 1.04-.58zM5 11.12l-.15.04a4 4 0 0 0 0 7.66l.15.04v-7.74zm22 0v7.74l.15-.04a4 4 0 0 0 0-7.66l-.15-.04zM16 9.37 12.34 15H15v3.63L18.66 13H16V9.37z" />
+        </svg>
+    );
+};
