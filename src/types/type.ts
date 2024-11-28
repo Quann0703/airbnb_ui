@@ -58,6 +58,31 @@ interface SafeReservation {
 interface SafeCategory {
     _id: string;
     name: string;
+    icon: string;
     createdAt?: string;
     updatedAt?: string;
+}
+interface SafeAmenity {
+    _id: string;
+    name: string;
+    icon: string;
+    description: string;
+    type: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+interface SafeAmenityGroup {
+    _id: string;
+    name: string;
+    amenities: SafeAmenity[];
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+interface GroupAmenity {
+    basis: SafeAmenityGroup[];
+    lux: SafeAmenityGroup[];
+    featured: SafeAmenityGroup[];
+    all: SafeAmenityGroup[];
 }

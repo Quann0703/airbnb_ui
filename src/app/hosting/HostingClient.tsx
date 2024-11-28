@@ -164,7 +164,7 @@ export const HostingClient: React.FC<HosingClientProps> = ({ currentUser }) => {
                                             alt={step.title}
                                             layout="fill"
                                             objectFit="cover"
-                                            quality={100} // Đảm bảo chất lượng cao nhất
+                                            quality={100}
                                         />
                                     </Box>
                                     <Box sx={{ padding: 4 }}>

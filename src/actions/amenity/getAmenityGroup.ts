@@ -3,33 +3,24 @@
 import { sendRequest } from '@/utils/api';
 import { getSession } from '../getCurrentUser';
 
-export interface IPropertyPrams {
-    category?: string;
-    listingId?: string;
-}
-export async function getProperties(params: IPropertyPrams) {
+export async function getAmenityGroup() {
     let query = '';
-    if (params.category) {
-        query = params.category;
-    }
-    console.log(params.category);
-
     const session = await getSession();
-
     const res = await sendRequest<IBackendRes<any>>({
         method: 'GET',
-        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/properties`,
+        url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/amenity-group`,
         headers: {
             Authorization: `Bearer ${session?.user?.access_token}`,
         },
-        queryParams: {
-            category: query,
-        },
     });
-
     if (res.statusCode !== 200) {
         console.error('không có căn hộ nào', res);
         return null;
     }
-    return res.data.properties;
+    return {
+        basis: res.data.basis,
+        lux: res.data.lux,
+        featured: res.data.featured,
+        all: res.data.amenityGroups,
+    };
 }

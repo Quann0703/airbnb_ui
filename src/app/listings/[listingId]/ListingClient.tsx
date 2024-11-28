@@ -23,7 +23,7 @@ interface ListingClientProps {
         host: SafeUser;
     };
 }
-interface LocationData {
+export interface LocationData {
     value: string;
     label: string;
     flag: string;

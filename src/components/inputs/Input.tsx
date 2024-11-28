@@ -1,8 +1,8 @@
 'use client';
 
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
-import { BiDollar } from 'react-icons/bi';
 
+import { BsCashCoin } from 'react-icons/bs';
 interface InputProps {
     id: string;
     label: string;
@@ -14,6 +14,7 @@ interface InputProps {
     errors: FieldErrors;
     hidden?: boolean;
     value?: any;
+    onChange?: (value: string) => void;
 }
 const Input: React.FC<InputProps> = ({
     id,
@@ -26,10 +27,11 @@ const Input: React.FC<InputProps> = ({
     errors,
     hidden,
     value,
+    onChange,
 }) => {
     return (
-        <div className={`w-full relative ${hidden ? 'hidden' : ''}`}>
-            {formatPrice && <BiDollar size={24} className="text-neutral-700 absolute top-5 left-2" />}
+        <div className={`w-full max-w-xl relative ${hidden ? 'hidden' : ''}`}>
+            {formatPrice && <BsCashCoin size={24} className="text-neutral-700 absolute top-5 left-2" />}
             <input
                 id={id}
                 disabled={disabled}
@@ -37,6 +39,7 @@ const Input: React.FC<InputProps> = ({
                 placeholder=" "
                 type={type}
                 value={value}
+                onChange={(e) => onChange && onChange(e.target.value)}
                 className={`
                 peer
                 w-full
@@ -63,7 +66,7 @@ const Input: React.FC<InputProps> = ({
                 transform
                 -translate-y-3
                 top-5
-                z-10
+                z-[5]
                 origin-[0]
                 ${formatPrice ? 'left-9' : 'left-4'}
                 peer-placeholder-shown:scale-100

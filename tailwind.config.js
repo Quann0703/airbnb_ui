@@ -42,6 +42,10 @@ module.exports = {
             animation: {
                 resizeanim: 'resizeanim 1ms ease-in-out',
             },
+            boxShadow: {
+                custom: '0 6px 16px rgba(0, 0, 0, 0.12)',
+                shadowCard: '0 6px 20px rgba(0, 0, 0, 0.2)',
+            },
         },
     },
     plugins: [

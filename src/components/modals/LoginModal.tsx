@@ -51,7 +51,7 @@ const LoginModal = () => {
             setIsLoading(false);
             toast.success('logged in');
             loginModal.onClose();
-            router.push('/');
+            router.push('/home');
             router.refresh();
         }
     };

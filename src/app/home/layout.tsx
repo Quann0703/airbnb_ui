@@ -9,6 +9,7 @@ import RegisterModal from '@/components/modals/RegisterModal';
 import LoginModal from '@/components/modals/LoginModal';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
+import { getCategory } from '@/actions/categories/getCategories';
 
 export const metadata: Metadata = {
     title: 'Book Page',
@@ -17,14 +18,14 @@ export const metadata: Metadata = {
 
 export default async function HomeLayout({ children }: { children: React.ReactNode }) {
     const currentUser = await getCurrentUser();
-
+    const categories = await getCategory();
     return (
         <>
             <ClientOnly>
                 <ToasterProvider />
                 <RegisterModal />
                 <LoginModal />
-                <Navbar currentUser={currentUser} />
+                <Navbar currentUser={currentUser} categories={categories} />
             </ClientOnly>
             {children}
             <ClientOnly>
