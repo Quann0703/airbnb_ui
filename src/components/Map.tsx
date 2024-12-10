@@ -17,23 +17,21 @@ interface MapComponentProps {
 
 const MapComponent: React.FC<MapComponentProps> = ({ locationData }) => {
     const [viewState, setViewState] = useState({
-        longitude: 105.804817, // Kinh độ mặc định
-        latitude: 21.028511, // Vĩ độ mặc định
+        longitude: 105.804817,
+        latitude: 21.028511,
         zoom: 10,
     });
 
-    // Cập nhật viewState khi locationData thay đổi
     useEffect(() => {
         if (locationData) {
             setViewState({
-                longitude: locationData.latlng[1], // Kinh độ
-                latitude: locationData.latlng[0], // Vĩ độ
+                longitude: locationData.latlng[1],
+                latitude: locationData.latlng[0],
                 zoom: 10,
             });
         }
     }, [locationData]);
 
-    // State để kiểm soát hiển thị Popup
     const [popupInfo, setPopupInfo] = useState<LocationData | null>(null);
 
     return (
@@ -57,9 +55,9 @@ const MapComponent: React.FC<MapComponentProps> = ({ locationData }) => {
                 <Popup
                     longitude={viewState.longitude}
                     latitude={viewState.latitude}
-                    onClose={() => setPopupInfo(null)} // Đóng popup
+                    onClose={() => setPopupInfo(null)}
                     closeOnClick={false}
-                    className=" rounded-lg shadow-lg p-4" // Tailwind CSS classes for styling
+                    className=" rounded-lg shadow-lg p-4"
                 >
                     <div className="text-center">
                         <h3 className="text-lg font-bold text-gray-800">{popupInfo.label}</h3>

@@ -8,11 +8,11 @@ interface SafeUser {
 }
 interface ImageGroup {
     _id: string;
-    imageSrc: string;
+    imageSrc?: string;
     isFeatured?: boolean;
     propertyImageId?: string;
-    createdAt: string;
-    updatedAt: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 interface Images {
@@ -45,6 +45,7 @@ interface SafeProperty {
 }
 
 interface SafeReservation {
+    _id: string;
     user: SafeUser;
     propertyID: SafeProperty;
     startDate: string;
@@ -85,4 +86,9 @@ interface GroupAmenity {
     lux: SafeAmenityGroup[];
     featured: SafeAmenityGroup[];
     all: SafeAmenityGroup[];
+}
+interface SafeFavorite {
+    _id: string;
+    property: SafeProperty;
+    user: SafeUser;
 }

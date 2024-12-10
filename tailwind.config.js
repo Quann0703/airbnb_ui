@@ -46,6 +46,12 @@ module.exports = {
                 custom: '0 6px 16px rgba(0, 0, 0, 0.12)',
                 shadowCard: '0 6px 20px rgba(0, 0, 0, 0.2)',
             },
+            scale: {
+                210: '2.1',
+            },
+            aspectRatio: {
+                '20/19': '20 / 19', // Thêm tỷ lệ 20:19 vào cấu hình
+            },
         },
     },
     plugins: [

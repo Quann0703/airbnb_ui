@@ -10,6 +10,7 @@ import LoginModal from '@/components/modals/LoginModal';
 import Navbar from '@/components/navbar/Navbar';
 import Footer from '@/components/Footer/Footer';
 import { getCategory } from '@/actions/categories/getCategories';
+import SearchModal from '@/components/modals/SearchModal';
 
 export const metadata: Metadata = {
     title: 'Book Page',
@@ -25,6 +26,7 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
                 <ToasterProvider />
                 <RegisterModal />
                 <LoginModal />
+                <SearchModal />
                 <Navbar currentUser={currentUser} categories={categories} />
             </ClientOnly>
             {children}

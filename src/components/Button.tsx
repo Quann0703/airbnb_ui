@@ -13,6 +13,7 @@ interface ButtonProps {
     base?: boolean;
     text?: boolean;
     className?: string;
+    active?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -26,6 +27,7 @@ const Button: React.FC<ButtonProps> = ({
     base,
     text,
     className,
+    active,
 }) => {
     let size = rounded ? 20 : 24;
 
@@ -38,7 +40,7 @@ const Button: React.FC<ButtonProps> = ({
                 hover:opacity-80 
                 transition 
                 w-full 
-                ${outline ? 'bg-white border-black !text-black' : ''}
+                ${outline ? 'bg-white !border-gray-300 !text-black' : ''}
                 ${small ? 'py-1 text-sm font-light border-[1px]' : 'py-3 text-md font-semibold border-2'}
                 ${rounded ? 'rounded-full !p-[10px]' : 'rounded-lg'}
                 ${
@@ -47,6 +49,7 @@ const Button: React.FC<ButtonProps> = ({
                         : 'bg-rose-500 border-rose-500 text-white'
                 }
                 ${text ? 'bg-transparent !text-black border-opacity-0 hover:bg-gray-100 m-0 !py-2 ' : ''}
+                ${active ? 'text-gray-900' : 'text-gray-300'}
                 ${className || ''}
             `}
             onClick={onClick}

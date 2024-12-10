@@ -31,7 +31,7 @@ const BookClient: React.FC<BookClientProps> = ({ currentUser, propertyId }) => {
     });
     const storeBooking = useBookingStore();
     const router = useRouter();
-    console.log(propertyId);
+    console.log(storeBooking);
 
     const handleBack = () => {
         router.back();

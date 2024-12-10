@@ -26,6 +26,7 @@ import { ListDoneIcon, SetUpCalenderIcon, SetUpSystemIcon } from '../Icon';
 import PreviewModal from './PreviewModal';
 import usePreviewModal from '@/hooks/usePreviewModal';
 import { createProperty } from '@/actions/property/createProperties';
+import toast from 'react-hot-toast';
 
 enum STEPS {
     CATEGORY = 0,
@@ -40,7 +41,7 @@ enum STEPS {
 }
 
 interface RentModalProps {
-    currentUser?: SafeUser;
+    currentUser: SafeUser;
 }
 
 const RentModal: React.FC<RentModalProps> = ({ currentUser }) => {
@@ -55,7 +56,7 @@ const RentModal: React.FC<RentModalProps> = ({ currentUser }) => {
     const [locationData, setLocationData] = useState<LocationData | null>(null);
     const [amenity, setAmenity] = useState<GroupAmenity | null>(null);
     const [imageGroup, setImageGroup] = useState<string[]>([]);
-    //useHookForm
+
     const {
         register,
         handleSubmit,
@@ -196,11 +197,14 @@ const RentModal: React.FC<RentModalProps> = ({ currentUser }) => {
         if (step !== STEPS.RECEIPT) {
             return onNext();
         }
-        console.log(data);
-        console.log(images, imageGroup);
         try {
-            const result = await createProperty(data);
-            console.log('Kết quả từ API:', result);
+            const result = await createProperty(data, currentUser);
+            if (!result) {
+                toast.error('bạn đã thêm thất bại vui lòng xem lại thông tin đã nhập');
+            } else {
+                toast.success('thêm bài đăng căn hộ thành công');
+                rentModal.onClose();
+            }
         } catch (error) {
             console.error('Lỗi khi gửi form:', error);
         }
@@ -229,7 +233,7 @@ const RentModal: React.FC<RentModalProps> = ({ currentUser }) => {
     const toggleImageMenu = (index: number) => {
         setIsOpen((prev) => {
             const newState = [...prev];
-            newState[index] = !newState[index]; // Đảo trạng thái của ảnh được nhấn
+            newState[index] = !newState[index];
             return newState;
         });
     };
@@ -245,9 +249,10 @@ const RentModal: React.FC<RentModalProps> = ({ currentUser }) => {
                         <div key={index} className="col-span-1">
                             <CategoryInput
                                 onClick={(category) => setCustomValue('category', category)}
-                                selected={category === item.name}
+                                selected={category === item._id}
                                 label={item.name}
                                 icon={Icon}
+                                id={item?._id}
                             />
                         </div>
                     );

@@ -7,13 +7,14 @@ interface CategoryInputProps {
     icon: IconType;
     onClick: (value: string) => void;
     selected?: boolean;
+    id: string;
 }
 
-const CategoryInput: React.FC<CategoryInputProps> = ({ label, icon: Icon, onClick, selected }) => {
+const CategoryInput: React.FC<CategoryInputProps> = ({ id, label, icon: Icon, onClick, selected }) => {
     return (
         <div
             onClick={() => {
-                onClick(label);
+                onClick(id);
             }}
             className={`rounded-xl
             border-2

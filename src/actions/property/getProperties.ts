@@ -6,13 +6,13 @@ import { getSession } from '../getCurrentUser';
 export interface IPropertyPrams {
     category?: string;
     listingId?: string;
+    hostId?: string;
 }
 export async function getProperties(params: IPropertyPrams) {
     let query = '';
     if (params.category) {
         query = params.category;
     }
-    console.log(params.category);
 
     const session = await getSession();
 

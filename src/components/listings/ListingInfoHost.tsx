@@ -29,7 +29,7 @@ const ListingInfoHost: React.FC<ListingInfoHostProps> = ({ host }) => {
                                 </div>
                                 <div className="flex flex-col items-center">
                                     <div className="flex flex-col items-start">
-                                        <div className="text-center text-[#222222] text-[31.90px] font-medium leading-[36.28px]">
+                                        <div className="text-center text-[#222222] text-2xl font-medium leading-[36.28px]">
                                             {host?.name}
                                         </div>
                                     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Button from '../Button';
+
 import HeartButton from '../HeartButton';
 import { StarIcon } from '../Icon';
 import { formatCurrency } from '@/utils/formatCurrency';
@@ -11,15 +11,19 @@ import { useRouter } from 'next/navigation';
 interface PropertyCardProps {
     property: SafeProperty;
     key?: string;
+    currentUser?: SafeUser | null;
 }
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ property, key }) => {
-    const [image, setImage] = useState('');
+const PropertyCard: React.FC<PropertyCardProps> = ({ property, key, currentUser }) => {
     const router = useRouter();
+    const [image, setImage] = useState('');
     useEffect(() => {
         const featuredImage = property?.images?.imageGroup?.find((item) => item.isFeatured && item.imageSrc);
         if (featuredImage) {
-            setImage(featuredImage.imageSrc);
+            setImage(
+                featuredImage?.imageSrc ??
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzNTA4NjAxNDk3NDg1NTQ2MQ%3D%3D/original/b692ae8e-a118-4906-bf40-16855d715c02.jpeg?im_w=720',
+            );
         } else {
             setImage(
                 'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzNTA4NjAxNDk3NDg1NTQ2MQ%3D%3D/original/b692ae8e-a118-4906-bf40-16855d715c02.jpeg?im_w=720',
@@ -45,7 +49,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property, key }) => {
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                     />
                     <div className="absolute top-3 right-3 ">
-                        <HeartButton />
+                        <HeartButton listing={property._id} currentUser={currentUser} />
                     </div>
                 </div>
                 <div className="gap-[100px] flex justify-end items-start w-[19.5625rem]">

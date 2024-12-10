@@ -62,6 +62,8 @@ const ListingClient: React.FC<ListingClientProps> = ({ currentUser, reservations
     const handleGuestsChange = (adults: number, children: number, infants: number) => {
         setGuests({ ...guests, adults, children, infants });
     };
+    console.log(property?.title);
+
     const defaultImage =
         'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzNTA4NjAxNDk3NDg1NTQ2MQ%3D%3D/original/b692ae8e-a118-4906-bf40-16855d715c02.jpeg?im_w=720';
     const disableDates = useMemo(() => {
@@ -87,21 +89,29 @@ const ListingClient: React.FC<ListingClientProps> = ({ currentUser, reservations
     useEffect(() => {
         const fetchLocationDataByCity = async (cityName: string) => {
             try {
+                if (!cityName) {
+                    console.warn('City name is undefined or empty.');
+                    return;
+                }
                 const data = await geocodeCity(cityName);
                 setLocationData(data);
             } catch (error) {
-                console.error('Lỗi:', error);
+                console.error('Lỗi khi lấy dữ liệu vị trí:', error);
             }
         };
-        const featuredImage = property?.images?.imageGroup?.find((item) => item.isFeatured && item.imageSrc);
-        if (property?.view && property.images?.imageGroup?.length && property.rating && property.title !== undefined) {
-            setBookView(property.view);
+
+        if (property) {
+            const featuredImage = property.images?.imageGroup?.find((item) => item.isFeatured && item.imageSrc);
+
+            setBookView(property.view || '');
             setImageBooking(featuredImage?.imageSrc || defaultImage);
-            setRating(property.rating);
-            setTitle(property.title);
+            setRating(property.rating || 0);
+            setTitle(property.title || 'No title available');
+
+            const cityName = `${property.address || ''} ${property.city || ''}`.trim();
+            fetchLocationDataByCity(cityName);
         }
-        fetchLocationDataByCity(`${property?.address} ${property?.city}`);
-    }, []);
+    }, [property]);
 
     useEffect(() => {
         if (dateRange.startDate && dateRange.endDate) {

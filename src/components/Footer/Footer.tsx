@@ -5,107 +5,107 @@ import SubFooter from './SubFooter';
 
 const supports = [
     {
-        title: 'Help Center',
+        title: 'Trung tâm hỗ trợ',
         link: './',
     },
     {
-        title: 'Safety information',
+        title: 'Yêu cầu trợ giúp về vấn đề an toàn',
         link: './',
     },
     {
-        title: 'Cancellation options',
+        title: 'AirCover',
         link: './',
     },
     {
-        title: 'Our COVID-19 Response',
+        title: 'Chống phân biệt đối xử',
         link: './',
     },
     {
-        title: 'Supporting people with disabilities',
+        title: 'Các tùy chọn hủy',
         link: './',
     },
     {
-        title: 'Report a neighborhoood concern',
+        title: 'Báo cáo lo ngại của khu dân cư',
         link: './',
     },
 ];
 
 const community = [
     {
-        title: 'Airbnb.org: disaster relief housing',
+        title: 'Cho thuê nhà trên Airbnb',
         link: './',
     },
     {
-        title: 'Support: Afghan refugees',
+        title: 'AirCover cho Chủ nhà',
         link: './',
     },
     {
-        title: 'Celebrating diversity & belonging',
+        title: 'Tài nguyên về đón tiếp khách',
         link: './',
     },
     {
-        title: 'Combating discriminatino',
+        title: 'Diễn đàn cộng đồng',
         link: './',
     },
 ];
 
 const about = [
     {
-        title: 'Newsroom',
+        title: 'Trang tin tức',
         link: './',
     },
     {
-        title: 'Learn about new features',
+        title: 'Tính năng mới',
         link: './',
     },
     {
-        title: 'Letter from our founders',
+        title: 'Cơ hội nghề nghiệp',
         link: './',
     },
     {
-        title: 'Careers',
+        title: 'Nhà đầu tư',
         link: './',
     },
     {
-        title: 'Investors',
+        title: 'Chỗ ở khẩn cấp Airbnb.org',
         link: './',
     },
     {
-        title: 'Airbnb Luxe',
+        title: 'Chỗ ở xa hoa',
         link: './',
     },
 ];
 const hosting = [
     {
-        title: 'Try hosting',
+        title: 'Hãy thử liện hệ',
         link: './',
     },
     {
-        title: 'AirCover: protection for Hosts',
+        title: 'AirCover: bảo vệ máy chủ',
         link: './',
     },
     {
-        title: 'Explore hosting resources',
+        title: 'Khám phá tài nguyên lưu trữ',
         link: './',
     },
     {
-        title: 'Visit our community forum',
+        title: 'Ghé thăm diễn đàn cộng đồng của chúng tôi',
         link: './',
     },
     {
-        title: 'How to host responsibly',
+        title: 'Học cách có tổ chức trách nghiệm',
         link: './',
     },
 ];
 const Footer = () => {
     return (
-        <div className="flex flex-col min-h-screen">
-            <div className="flex flex-col items-start gap-12 self-stretch pt-16 pb-6 px-20 bg-gray-50 mt-auto">
+        <div className="flex flex-col ">
+            <div className="flex flex-col items-start gap-12 self-stretch pt-16 pb-6 px-20 bg-gray-50 mt-16">
                 <div className="flex items-start gap-6 self-stretch">
-                    <ColumFooter title="Support" rows={supports} />
-                    <ColumFooter title="Support" rows={community} />
-                    <ColumFooter title="Support" rows={hosting} />
-                    <ColumFooter title="Support" rows={about} />
+                    <ColumFooter title="Hỗ trợ" rows={supports} />
+                    <ColumFooter title="Cộng đồng" rows={community} />
+                    <ColumFooter title="Liên hệ" rows={hosting} />
+                    <ColumFooter title="Về chúng tôi" rows={about} />
                 </div>
                 <SubFooter />
             </div>

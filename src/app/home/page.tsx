@@ -15,9 +15,9 @@ export default async function Home({ searchParams }: HomeProps) {
     return (
         <ClientOnly>
             <Container>
-                <div className="pt-48 grid grid-cols-1 sm:grid-cols-2 mm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4   ">
+                <div className="pt-48 grid grid-cols-1 sm:grid-cols-2 mm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4  gap-5 ">
                     {properties?.map((property: any) => {
-                        return <PropertyCard key={property?._id} property={property} />;
+                        return <PropertyCard key={property?._id} property={property} currentUser={currentUser} />;
                     })}
                 </div>
             </Container>

@@ -177,3 +177,14 @@ body {
 .slick-next {
     top: 22% !important;
 }
+
+/* Ẩn thanh cuộn cho trình duyệt hỗ trợ */
+html {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+/* Ẩn thanh cuộn cho Webkit (Chrome, Edge, Safari) */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Webkit browsers */
+}

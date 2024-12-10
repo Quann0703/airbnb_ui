@@ -41,7 +41,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     className="hidden md:block text-sm font-semibold px-3 py-4 rounded-full hover:bg-neutral-100 transition cursor-pointer"
                     //   onClick={onRent}
                 >
-                    Airbnb your home
+                    Airbnb home
                 </div>
                 <div
                     className="py-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
@@ -54,22 +54,23 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 </div>
             </div>
             {isOpen && (
-                <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 bg-white overflow-hidden right-0 top-12 text-sm z-10">
+                <div className="absolute rounded-xl shadow-md w-[40vw] md:w-3/4 lg:w-[100%] bg-white overflow-hidden right-0 top-12 text-sm z-10">
                     <div className="flex flex-col cursor-pointer">
                         {currentUser ? (
                             <>
-                                <MenuItem label="My trips" onClick={() => router.push('/trips')} />
-                                <MenuItem label="My favorites" onClick={() => router.push('/favorites')} />
-                                <MenuItem label="My reservations" onClick={() => router.push('/reservations')} />
-                                <MenuItem label="My properties" onClick={() => router.push('/properties')} />
-                                <MenuItem label="Air my home" onClick={() => {}} />
+                                <MenuItem label="Tin nhắn" onClick={() => router.push('/home')} />
+                                <MenuItem label="Chuyến đi" onClick={() => router.push('/trips')} />
+                                <MenuItem label="Danh sách yêu thích" onClick={() => router.push('/favorites')} />
+                                {/* <MenuItem label="My reservations" onClick={() => router.push('/reservations')} /> */}
+                                {/* <MenuItem label="My properties" onClick={() => router.push('/properties')} /> */}
+                                <MenuItem label="Quản lý phòng cho thuê" onClick={() => router.push('/hosting')} />
                                 <hr />
-                                <MenuItem label="Logout" onClick={() => signOut()} />
+                                <MenuItem label="Đăng xuất" onClick={() => signOut()} />
                             </>
                         ) : (
                             <>
-                                <MenuItem label="Login" onClick={loginModal.onOpen} />
-                                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
+                                <MenuItem label="Đăng nhập" onClick={loginModal.onOpen} />
+                                <MenuItem label="Đăng ký" onClick={registerModal.onOpen} />
                             </>
                         )}
                     </div>

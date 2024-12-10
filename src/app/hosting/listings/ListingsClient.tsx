@@ -13,10 +13,13 @@ import { FaPlus } from 'react-icons/fa6';
 import { IoSearchSharp } from 'react-icons/io5';
 
 interface ListingClientProps {
-    currentUser?: SafeUser;
+    currentUser: SafeUser;
+    hostProperty?: SafeProperty[] & {
+        host: SafeUser;
+    };
 }
 
-const ListingsClient: React.FC<ListingClientProps> = ({ currentUser }) => {
+const ListingsClient: React.FC<ListingClientProps> = ({ currentUser, hostProperty }) => {
     const [isTable, setIsTable] = useState(false);
     const rentModal = useRentModal();
     const toggleTable = () => {
@@ -24,11 +27,12 @@ const ListingsClient: React.FC<ListingClientProps> = ({ currentUser }) => {
             return !prev;
         });
     };
+    console.log(hostProperty);
 
     return (
         <>
             <Container>
-                <div className="w-full mx-auto pt-40 h-[1000px]">
+                <div className="w-full mx-auto pt-40 min-h-screen ">
                     <div className="flex justify-between items-center">
                         <Heading title="Nhà/phòng cho thuê của bạn" fontSize="text-3xl" />
                         <div className="flex gap-4">
@@ -40,7 +44,13 @@ const ListingsClient: React.FC<ListingClientProps> = ({ currentUser }) => {
 
                     {isTable ? (
                         <div className="mt-4 grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
-                            <HostingPropertyCard />
+                            {hostProperty?.map((item) => {
+                                return (
+                                    <div key={item._id} className="mb-4">
+                                        <HostingPropertyCard property={item} />
+                                    </div>
+                                );
+                            })}
                         </div>
                     ) : (
                         <section>
@@ -66,38 +76,55 @@ const ListingsClient: React.FC<ListingClientProps> = ({ currentUser }) => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr className="border-spacing-3 border-collapse w-full max-w-full">
-                                            <td className="text-left  align-middle ">
-                                                <div
-                                                    className="flex gap-6 items-center font-medium break-words"
-                                                    role="button"
-                                                >
-                                                    <div className="min-w-16">
-                                                        <div className="w-16 h-16 rounded-[4px] relative">
-                                                            <Image
-                                                                src={
-                                                                    'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzNTA4NjAxNDk3NDg1NTQ2MQ%3D%3D/original/b692ae8e-a118-4906-bf40-16855d715c02.jpeg?im_w=1920'
-                                                                }
-                                                                alt=""
-                                                                fill
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div>
-                                                        <h2 className="m-0 p-0 text-inherit text-base ">can ho 1</h2>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="text-left  align-middle">
-                                                <div className="text-gray-500">Hanoi, Hanoi</div>
-                                            </td>
-                                            <td className="text-left  align-middle">
-                                                <div className="flex items-center gap-2">
-                                                    <div className="w-2 h-2 min-h-2 min-w-2 bg-orange-500 rounded-full"></div>
-                                                    <span>Yêu cầu hành động</span>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                        {hostProperty?.map((item) => {
+                                            const featuredImage =
+                                                item.images?.imageGroup?.find((img) => img.isFeatured && img.imageSrc)
+                                                    ?.imageSrc ||
+                                                'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzNTA4NjAxNDk3NDg1NTQ2MQ%3D%3D/original/b692ae8e-a118-4906-bf40-16855d715c02.jpeg?im_w=1920';
+                                            return (
+                                                <>
+                                                    <tr
+                                                        className="border-spacing-3 border-collapse w-full max-w-full"
+                                                        key={item._id}
+                                                    >
+                                                        <td className="text-left align-middle">
+                                                            <div
+                                                                className="flex gap-6 items-center font-medium break-words"
+                                                                role="button"
+                                                            >
+                                                                <div className="min-w-16">
+                                                                    <div className="w-16 h-16 rounded-lg relative">
+                                                                        <Image
+                                                                            src={featuredImage}
+                                                                            alt=""
+                                                                            fill
+                                                                            className="rounded-lg"
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <h2 className="m-0 p-0 text-inherit text-base">
+                                                                        {item.title}
+                                                                    </h2>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="text-left align-middle">
+                                                            <div className="text-gray-500">
+                                                                {item?.address}-{item?.city}
+                                                            </div>
+                                                        </td>
+                                                        <td className="text-left align-middle">
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="w-2 h-2 min-h-2 min-w-2 bg-orange-500 rounded-full"></div>
+                                                                <span>Yêu cầu hành động</span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <div className="w-full my-3" />
+                                                </>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>

@@ -31,7 +31,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onCitySelect }) => {
             const data = await response.json();
 
             return data.features.map((feature: any) => ({
-                value: feature.geometry.coordinates, // [longitude, latitude]
+                value: feature.geometry.coordinates,
                 label: feature.place_name,
                 region: feature.context?.find((ctx: any) => ctx.id.includes('region'))?.text || 'Không rõ',
             }));

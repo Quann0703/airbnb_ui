@@ -14,9 +14,13 @@ const HostingPropertyCard: React.FC<HostingPropertyCardProps> = ({ property, key
     const [image, setImage] = useState('');
     const router = useRouter();
     useEffect(() => {
-        const featuredImage = property?.images?.imageGroup?.find((item) => item.isFeatured && item.imageSrc);
-        if (featuredImage) {
-            setImage(featuredImage.imageSrc);
+        if (property?.images?.imageGroup) {
+            const featuredImage = property.images.imageGroup.find((item) => item.isFeatured && item.imageSrc);
+
+            setImage(
+                featuredImage?.imageSrc ||
+                    'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzNTA4NjAxNDk3NDg1NTQ2MQ%3D%3D/original/b692ae8e-a118-4906-bf40-16855d715c02.jpeg?im_w=1920',
+            );
         } else {
             setImage(
                 'https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTEzNTA4NjAxNDk3NDg1NTQ2MQ%3D%3D/original/b692ae8e-a118-4906-bf40-16855d715c02.jpeg?im_w=1920',
@@ -51,10 +55,12 @@ const HostingPropertyCard: React.FC<HostingPropertyCardProps> = ({ property, key
                 <div className="gap-[100px] flex justify-end items-start w-[19.5625rem]">
                     <div className="flex flex-col items-start gap-1 flex-[1_0_0]">
                         {/* tên căn hộ */}
-                        <div className="Sans text-[#222222] font-bold font-messina leading-normal">căn hộ 1 </div>
+                        <div className="Sans text-[#222222] font-bold font-messina leading-normal">
+                            {property?.title}{' '}
+                        </div>
                         {/* địa điểm */}
                         <div className="Sans text-[#6A6A6A] font-medium font-messina text-sm leading-normal">
-                            ha noi,ha noi
+                            {property?.address}-{property?.city}
                         </div>
                     </div>
                 </div>
