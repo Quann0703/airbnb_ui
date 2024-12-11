@@ -61,7 +61,7 @@ const HostingMenu: React.FC<HostingMenuProps> = ({ currentUser }) => {
                             <>
                                 <MenuItem label="Tin nhắn" onClick={() => router.push('/home')} />
                                 <MenuItem label="Chuyến đi" onClick={() => router.push('/trips')} />
-                                <MenuItem label="Danh sách yêu thích" onClick={() => router.push('/favorites')} />
+                                <MenuItem label="Danh sách yêu thích" onClick={() => router.push('/wishlist')} />
                                 {/* <MenuItem label="My reservations" onClick={() => router.push('/reservations')} /> */}
                                 {/* <MenuItem label="My properties" onClick={() => router.push('/properties')} /> */}
                                 <MenuItem label="Quản lý phòng cho thuê" onClick={() => router.push('/hosting')} />

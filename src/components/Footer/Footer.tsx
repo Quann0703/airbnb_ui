@@ -100,7 +100,7 @@ const hosting = [
 const Footer = () => {
     return (
         <div className="flex flex-col ">
-            <div className="flex flex-col items-start gap-12 self-stretch pt-16 pb-6 px-20 bg-gray-50 mt-16">
+            <div className="flex flex-col items-start gap-12 self-stretch pt-16 pb-6 px-20 bg-gray-50 mt-32">
                 <div className="flex items-start gap-6 self-stretch">
                     <ColumFooter title="Hỗ trợ" rows={supports} />
                     <ColumFooter title="Cộng đồng" rows={community} />

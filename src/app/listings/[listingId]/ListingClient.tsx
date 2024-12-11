@@ -125,7 +125,7 @@ const ListingClient: React.FC<ListingClientProps> = ({ currentUser, reservations
     }, [dateRange, property?.pricePerNight]);
     return (
         <Container>
-            <div className="w-full mx-auto pt-40">
+            <div className="w-full mx-auto py-40">
                 <div className="flex flex-col gap-6">
                     <ListingHead
                         title={property?.title}

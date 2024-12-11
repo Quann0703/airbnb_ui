@@ -12,7 +12,6 @@ const HeartButton: React.FC<HeartButtonProps> = ({ listing, currentUser }) => {
         listing,
         currentUser,
     });
-    console.log(hasFavorite);
 
     return (
         <div className="relative hover:opacity-80 transition cursor-pointer" onClick={toggleFavorite}>

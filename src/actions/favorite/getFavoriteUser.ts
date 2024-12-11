@@ -18,7 +18,7 @@ export const getFavoriteUser = async (data: any) => {
             headers: {
                 Authorization: `Bearer ${session.user.access_token}`,
             },
-            queryParams: { ...data },
+            queryParams: { user: data },
         });
 
         if (favorite.statusCode !== 200) {

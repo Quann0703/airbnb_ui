@@ -1,4 +1,5 @@
 'use client';
+import useSWR from 'swr';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -12,30 +13,18 @@ interface IUseFavorite {
     listing: string;
     currentUser?: SafeUser | null;
 }
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const useFavorite = ({ listing, currentUser }: IUseFavorite) => {
     const router = useRouter();
     const loginModal = useLoginModal();
 
-    const [hasFavorite, setHasFavorite] = useState(false);
+    const { data: favoriteList, mutate } = useSWR(
+        currentUser ? `http://localhost:8080/api/v1/favorites?user=${currentUser._id}` : null,
+        fetcher,
+    );
 
-    useEffect(() => {
-        const fetchFavoriteStatus = async () => {
-            if (currentUser) {
-                try {
-                    const list = await getFavoriteUser(currentUser._id);
-                    console.log('Favorite list:', list);
-                    setHasFavorite(list.data.some((favorite: SafeFavorite) => favorite.property._id === listing));
-                } catch (error) {
-                    console.error('Error fetching favorite status:', error);
-                }
-            } else {
-                setHasFavorite(false);
-            }
-        };
-
-        fetchFavoriteStatus();
-    }, [currentUser, listing]);
+    const hasFavorite = favoriteList?.data?.some((favorite: SafeFavorite) => favorite.property._id === listing);
 
     const toggleFavorite = useCallback(
         async (e: React.MouseEvent<HTMLDivElement>) => {
@@ -48,20 +37,18 @@ const useFavorite = ({ listing, currentUser }: IUseFavorite) => {
             try {
                 if (hasFavorite) {
                     await deleteFavorite(currentUser._id, listing);
-                    setHasFavorite(false);
                 } else {
                     await createFavorite({ property: listing, user: currentUser._id });
-                    setHasFavorite(true);
                 }
 
-                router.refresh();
+                await mutate();
                 toast.success(hasFavorite ? 'Đã xóa khỏi danh sách yêu thích' : 'Đã thêm vào danh sách yêu thích');
             } catch (error) {
                 toast.error('Đã có 1 vài lỗi xảy ra');
                 console.error('Error toggling favorite:', error);
             }
         },
-        [currentUser, listing, hasFavorite, loginModal, router],
+        [currentUser, listing, hasFavorite, loginModal, mutate],
     );
 
     return {
